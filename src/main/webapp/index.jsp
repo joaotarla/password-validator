@@ -2,6 +2,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="/public/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/public/main.css">
+<title>Avaliador de seguran&ccedil;a de senha</title>
 </head>
 <body>
 <br/>
@@ -15,7 +16,7 @@
    </div> <!-- end well -->
 </div><!-- end row -->
 <div class="row col-md-6"> <!-- begin row -->
-<table class="table">
+<table class="table table-condensed">
   <thead>
     <th>Regras de adi&ccedil;&atilde;o</th>
     <th>Quantidade</th>
@@ -59,7 +60,7 @@
   	</tr>
   </tbody>
 </table>
-<table class="table">
+<table class="table table-condensed">
   <thead>
     <th>Regras de subtra&ccedil;&atilde;o</th>
     <th>Quantidade</th>
@@ -76,7 +77,7 @@
   	  <td id="numbersOnly">0</td>
   	  <td id="numbersOnlyBonus">0</td>
   	</tr>
-  	<tr>
+  	<tr class="warning">
   	  <td>Caracteres Repetidos</td>
   	  <td id="repeatedChars">0</td>
   	  <td id="repeatedCharsBonus">0</td>
@@ -96,17 +97,17 @@
   	  <td id="consecutiveNumbers">0</td>
   	  <td id="consecutiveNumbersBonus">0</td>
   	</tr>
-  	<tr>
+  	<tr class="warning">
   	  <td>Letras Sequenciais</td>
   	  <td id="sequentialLetters">0</td>
   	  <td id="sequentialLettersBonus">0</td>
   	</tr>
-  	<tr>
+  	<tr class="warning">
   	  <td>N&uacute;meros Sequenciais</td>
   	  <td id="sequentialNumbers">0</td>
   	  <td id="sequentialNumbersBonus">0</td>
   	</tr>
-  	<tr>
+  	<tr class="warning">
   	  <td>S&iacute;mbolos Sequenciais</td>
   	  <td id="sequentialSymbols">0</td>
   	  <td id="sequentialSymbolsBonus">0</td>

@@ -49,18 +49,18 @@ public class Password {
 			if (Character.isLetter(c)) { // Letter
 				if (Character.isUpperCase(c)) {
 					uppercase++; // Uppercase
-					if (c == prevChar)
+					if (Character.isUpperCase(prevChar)) // prev is upper
 						consecutiveUppercase++;
 				} else if (Character.isLowerCase(c)) {
 					lowercase++; // Lowercase
-					if (c == prevChar)
+					if (Character.isLowerCase(prevChar)) // prev is lower
 						consecutiveLowercase++;
 				}
 			} else if (Character.isDigit(c)) {
 				numbers++; // Digit
 				if (i > 0 && (i + 1) != password.length())
 					middleNumbersOrSymbols++;
-				if (c == prevChar)
+				if (Character.isDigit(prevChar))
 					consecutiveNumbers++;
 			} else if (CharUtils.isSymbol(c)) {
 				symbols++; // Symbol
@@ -282,7 +282,9 @@ public class Password {
 	}
 
 	public int getTotalDeductionBonuses() {
-		return getNumberOnlyBonus() + getLetterOnlyBonus();
+		return getNumberOnlyBonus() + getLetterOnlyBonus()
+				+ getConsecutiveLowercaseBonus()
+				+ getConsecutiveUppercaseBonus() + getConsecutiveNumbersBonus();
 	}
 
 	public String getComplexity() {
@@ -306,8 +308,8 @@ public class Password {
 		json.append("score", this.getScore());
 		json.append("complexity", this.getComplexity());
 		// addition scores
-		json.append("totalAdditionsBonuses", getTotalAdditionBonuses());
-		json.append("totalDeductionBonuses", getTotalDeductionBonuses());
+		json.append("totalAdditionsBonuses", this.getTotalAdditionBonuses());
+		json.append("totalDeductionBonuses", this.getTotalDeductionBonuses());
 		json.append("numberOfCharacters", this.length());
 		json.append("numberOfCharactersBonus", this.getLengthBonus());
 		json.append("uppercaseLetters", this.getUppercase());
@@ -318,9 +320,9 @@ public class Password {
 		json.append("numbersBonus", this.getNumbersBonus());
 		json.append("symbols", this.getSymbols());
 		json.append("symbolsBonus", this.getSymbolsBonus());
-		json.append("middleNumbersAndSymbols", getMiddleNumbersOrSymbols());
+		json.append("middleNumbersAndSymbols", this.getMiddleNumbersOrSymbols());
 		json.append("middleNumbersAndSymbolsBonus",
-				getMiddleNumbersAndSymbolsBonus());
+				this.getMiddleNumbersAndSymbolsBonus());
 		json.append("requirements", this.getRequirements());
 		json.append("requirementsBonus", this.getRequirementsBonus());
 		// deduction scores
@@ -328,12 +330,20 @@ public class Password {
 		json.append("lettersOnlyBonus", this.getLetterOnlyBonus());
 		json.append("numbersOnly", this.getNumberOnly());
 		json.append("numbersOnlyBonus", this.getNumberOnlyBonus());
-		json.append("consecutiveUppercase", getConsecutiveUppercase());
-		json.append("consecutiveUppercaseBonus", getConsecutiveUppercaseBonus());
-		json.append("consecutiveLowercase", getConsecutiveLowercase());
-		json.append("consecutiveLowercaseBonus", getConsecutiveLowercaseBonus());
-		json.append("consecutiveNumbers", getConsecutiveNumbers());
-		json.append("consecutiveNumbersBonus", getConsecutiveNumbersBonus());
+		json.append("consecutiveUppercase", this.getConsecutiveUppercase());
+		json.append("consecutiveUppercaseBonus",
+				this.getConsecutiveUppercaseBonus());
+		json.append("consecutiveLowercase", this.getConsecutiveLowercase());
+		json.append("consecutiveLowercaseBonus",
+				this.getConsecutiveLowercaseBonus());
+		json.append("consecutiveNumbers", this.getConsecutiveNumbers());
+		json.append("consecutiveNumbersBonus",
+				this.getConsecutiveNumbersBonus());
 		return json.toString();
+	}
+
+	public static void main(String[] args) {
+		System.out.println(new Password("aSD#J*DRMWEUadsadsak98797aSAS")
+				.toJson());
 	}
 }
