@@ -1,0 +1,14 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app>
+	<display-name>Avaliador de Seguranca de Senha</display-name>
+	<servlet>
+		<servlet-name>ValidateServlet</servlet-name>
+		<servlet-class>com.db1.passwordmeter.servlet.PasswordServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ValidateServlet</servlet-name>
+		<url-pattern>/validate</url-pattern>
+	</servlet-mapping>
+</web-app>
