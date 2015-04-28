@@ -8,7 +8,6 @@ document.getElementById("password").onkeyup = function() {
 	httpRequest.onreadystatechange = function(data) {
 		if (httpRequest.readyState === 4 && httpRequest.status === 200) {
 			var response = JSON.parse(httpRequest.responseText);
-			console.log(response);
 			setValue('score', (response.score + '%'));
 			setValue('complexity', response.complexity);
 			// addition scores
@@ -37,6 +36,13 @@ document.getElementById("password").onkeyup = function() {
 			setValue('consecutiveLowercaseLettersBonus', response.consecutiveLowercaseBonus);
 			setValue('consecutiveNumbers', response.consecutiveNumbers);
 			setValue('consecutiveNumbersBonus', response.consecutiveNumbersBonus);
+			setValue('sequentialLetters', response.sequentialLetters);
+			setValue('sequentialLettersBonus', response.sequentialLettersBonus);
+			setValue('sequentialNumbers', response.sequentialNumbers);
+			setValue('sequentialNumbersBonus', response.sequentialNumbersBonus);
+			setValue('sequentialSymbols', response.sequentialSymbols);
+			setValue('sequentialSymbolsBonus', response.sequentialSymbolsBonus);
+			setValue('repeatedCharacters', response.repeatedCharacters)
 		}
 	}
 	httpRequest.open('POST', '/validate');

@@ -77,9 +77,9 @@
   	  <td id="numbersOnly">0</td>
   	  <td id="numbersOnlyBonus">0</td>
   	</tr>
-  	<tr class="warning">
+  	<tr>
   	  <td>Caracteres Repetidos</td>
-  	  <td id="repeatedChars">0</td>
+  	  <td id="repeatedCharacters">0</td>
   	  <td id="repeatedCharsBonus">0</td>
   	</tr>
    	<tr>
@@ -97,17 +97,17 @@
   	  <td id="consecutiveNumbers">0</td>
   	  <td id="consecutiveNumbersBonus">0</td>
   	</tr>
-  	<tr class="warning">
+  	<tr>
   	  <td>Letras Sequenciais</td>
   	  <td id="sequentialLetters">0</td>
   	  <td id="sequentialLettersBonus">0</td>
   	</tr>
-  	<tr class="warning">
+  	<tr>
   	  <td>N&uacute;meros Sequenciais</td>
   	  <td id="sequentialNumbers">0</td>
   	  <td id="sequentialNumbersBonus">0</td>
   	</tr>
-  	<tr class="warning">
+  	<tr>
   	  <td>S&iacute;mbolos Sequenciais</td>
   	  <td id="sequentialSymbols">0</td>
   	  <td id="sequentialSymbolsBonus">0</td>

@@ -1,23 +1,28 @@
 package com.db1.passwordmeter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.db1.passwordmeter.utils.CharUtils;
 import com.db1.passwordmeter.utils.JsonBuilder;
 
 public class Password {
+	/* Constants */
 	private static final int ZERO = 0;
-	public static final int VERY_WEAK_MIN_SCORE = 0;
 	public static final int WEAK_MIN_SCORE = 21;
 	public static final int GOOD_MIN_SCORE = 41;
 	public static final int STRONG_MIN_SCORE = 61;
 	public static final int VERY_STRONG_MIN_SCORE = 81;
 	public static final int MAX_SCORE = 100;
 	public static final int MIN_REQUIREMENTS = 3;
-	private static final int MIN_LENGTH = 8;
+	public static final int MIN_LENGTH = 8;
+	public static final String LETTERS = "abcdefghijklmnopqrstuvwxyz";
+	public static final String NUMBERS = "01234567890";
+	public static final String SYMBOLS = ")!@#$%^&*()";
 
 	private final char[] password;
+	private final String passwordAsString;
+	private final String passwordLowercase;
 	// Additions
 	private final int uppercase;
 	private final int lowercase;
@@ -30,9 +35,14 @@ public class Password {
 	private final int consecutiveLowercase;
 	private final int consecutiveUppercase;
 	private final int consecutiveNumbers;
+	private final int sequentialLetters;
+	private final int sequentialNumbers;
+	private final int sequentialSymbols;
 
 	public Password(String password) {
 		this.password = password.toCharArray();
+		this.passwordAsString = password;
+		this.passwordLowercase = password.toLowerCase();
 		int uppercase = 0;
 		int lowercase = 0;
 		int numbers = 0;
@@ -79,6 +89,48 @@ public class Password {
 		this.consecutiveLowercase = consecutiveLowercase;
 		this.consecutiveUppercase = consecutiveUppercase;
 		this.consecutiveNumbers = consecutiveNumbers;
+		int sequentialLetters = ZERO;
+		int sequentialNumbers = ZERO;
+		int sequentialSymbols = ZERO;
+		// fetching sequential symbols
+		for (int i = 0; i < (LETTERS.length() - 3); i++) { // forward
+			if (passwordLowercase.contains(LETTERS.substring(i, (i + 3)))) {
+				sequentialLetters++;
+			}
+		}
+		for (int i = 0; i < (LETTERS.length() - 3); i++) { // reverse
+			if (passwordLowercase.contains(new StringBuilder(LETTERS).reverse()
+					.toString().substring(i, (i + 3)))) {
+				sequentialLetters++;
+			}
+		}
+		// fetching sequential symbols
+		for (int i = 0; i < (SYMBOLS.length() - 3); i++) { // forward
+			if (passwordAsString.contains(SYMBOLS.substring(i, (i + 3)))) {
+				sequentialSymbols++;
+			}
+		}
+		for (int i = 0; i < (SYMBOLS.length() - 3); i++) { // reverse
+			if (passwordAsString.contains(new StringBuilder(SYMBOLS).reverse()
+					.toString().substring(i, (i + 3)))) {
+				sequentialSymbols++;
+			}
+		}
+		// fetching sequential symbols
+		for (int i = 0; i < (NUMBERS.length() - 3); i++) { // forward
+			if (passwordAsString.contains(NUMBERS.substring(i, (i + 3)))) {
+				sequentialNumbers++;
+			}
+		}
+		for (int i = 0; i < (NUMBERS.length() - 3); i++) { // reverse
+			if (passwordAsString.contains(new StringBuilder(NUMBERS).reverse()
+					.toString().substring(i, (i + 3)))) {
+				sequentialNumbers++;
+			}
+		}
+		this.sequentialLetters = sequentialLetters;
+		this.sequentialSymbols = sequentialSymbols;
+		this.sequentialNumbers = sequentialNumbers;
 	}
 
 	public int getRequirementsCount() {
@@ -97,10 +149,6 @@ public class Password {
 		 * if (hasMiddleNumbersOrSymbols()) requirements++;
 		 */
 		return requirements;
-	}
-
-	private boolean hasMiddleNumbersOrSymbols() {
-		return middleNumbersOrSymbols > 0;
 	}
 
 	private boolean hasUppercaseLetters() {
@@ -143,12 +191,28 @@ public class Password {
 		return consecutiveNumbers * 2;
 	}
 
-	public String getPassword() {
-		final StringBuilder password = new StringBuilder();
-		for (char c : this.password) {
-			password.append(c);
-		}
-		return password.toString();
+	public int getSequentialLetters() {
+		return this.sequentialLetters;
+	}
+
+	public int getSequentialLettersBonus() {
+		return this.sequentialLetters * 3;
+	}
+
+	public int getSequentialNumbers() {
+		return this.sequentialNumbers;
+	}
+
+	public int getSequentialNumbersBonus() {
+		return this.sequentialNumbers * 3;
+	}
+
+	public int getSequentialSymbols() {
+		return this.sequentialSymbols;
+	}
+
+	public int getSequentialSymbolsBonus() {
+		return this.sequentialSymbols * 3;
 	}
 
 	public int getUppercase() {
@@ -252,23 +316,14 @@ public class Password {
 	}
 
 	public int getRepeatedCharacters() {
-		Map<Character, Integer> numChars = new HashMap<Character, Integer>();
-		int repeatedChars = 0;
-
-		for (int i = 0; i < length(); ++i) {
-			// Case insensitive
-			char charAt = Character.toLowerCase(password[i]);
-
-			if (!numChars.containsKey(charAt)) {
-				numChars.put(charAt, 1);
-			} else {
-				numChars.put(charAt, numChars.get(charAt) + 1);
-				System.out.println(charAt);
-				repeatedChars++;
-			}
+		int repeated = ZERO;
+		final List<Character> prev = new ArrayList<Character>();
+		for (char c : password) {
+			if (prev.contains(c))
+				repeated++;
+			prev.add(c);
 		}
-
-		return repeatedChars;
+		return repeated;
 	}
 
 	public int getScore() {
@@ -303,7 +358,6 @@ public class Password {
 	}
 
 	public String toJson() {
-		// Poderia usar a biblioteca Gson, da Google
 		final JsonBuilder json = new JsonBuilder();
 		json.append("score", this.getScore());
 		json.append("complexity", this.getComplexity());
@@ -339,11 +393,13 @@ public class Password {
 		json.append("consecutiveNumbers", this.getConsecutiveNumbers());
 		json.append("consecutiveNumbersBonus",
 				this.getConsecutiveNumbersBonus());
+		json.append("sequentialLetters", this.getSequentialLetters());
+		json.append("sequentialLettersBonus", this.getSequentialLettersBonus());
+		json.append("sequentialNumbers", this.getSequentialNumbers());
+		json.append("sequentialNumbersBonus", this.getSequentialNumbersBonus());
+		json.append("sequentialSymbols", this.getSequentialSymbols());
+		json.append("sequentialSymbolsBonus", this.getSequentialSymbolsBonus());
+		json.append("repeatedCharacters", this.getRepeatedCharacters());
 		return json.toString();
-	}
-
-	public static void main(String[] args) {
-		System.out.println(new Password("aSD#J*DRMWEUadsadsak98797aSAS")
-				.toJson());
 	}
 }

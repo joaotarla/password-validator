@@ -45,6 +45,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<head>\n");
       out.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"/public/bootstrap.min.css\">\n");
       out.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"/public/main.css\">\n");
+      out.write("<title>Avaliador de seguran&ccedil;a de senha</title>\n");
       out.write("</head>\n");
       out.write("<body>\n");
       out.write("<br/>\n");
@@ -58,7 +59,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("   </div> <!-- end well -->\n");
       out.write("</div><!-- end row -->\n");
       out.write("<div class=\"row col-md-6\"> <!-- begin row -->\n");
-      out.write("<table class=\"table\">\n");
+      out.write("<table class=\"table table-condensed\">\n");
       out.write("  <thead>\n");
       out.write("    <th>Regras de adi&ccedil;&atilde;o</th>\n");
       out.write("    <th>Quantidade</th>\n");
@@ -102,7 +103,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("  \t</tr>\n");
       out.write("  </tbody>\n");
       out.write("</table>\n");
-      out.write("<table class=\"table\">\n");
+      out.write("<table class=\"table table-condensed\">\n");
       out.write("  <thead>\n");
       out.write("    <th>Regras de subtra&ccedil;&atilde;o</th>\n");
       out.write("    <th>Quantidade</th>\n");
@@ -119,9 +120,9 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("  \t  <td id=\"numbersOnly\">0</td>\n");
       out.write("  \t  <td id=\"numbersOnlyBonus\">0</td>\n");
       out.write("  \t</tr>\n");
-      out.write("  \t<tr>\n");
+      out.write("  \t<tr class=\"warning\">\n");
       out.write("  \t  <td>Caracteres Repetidos</td>\n");
-      out.write("  \t  <td id=\"repeatedChars\">0</td>\n");
+      out.write("  \t  <td id=\"repeatedCharacters\">0</td>\n");
       out.write("  \t  <td id=\"repeatedCharsBonus\">0</td>\n");
       out.write("  \t</tr>\n");
       out.write("   \t<tr>\n");
